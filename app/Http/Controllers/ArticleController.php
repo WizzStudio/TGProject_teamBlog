@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Invite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class GroupController extends Controller
+class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,6 +15,9 @@ class GroupController extends Controller
     public function index()
     {
         //
+		$user = Auth::user();
+		$posts = $user->posts;
+		return view('member.article.index', ['user' => $user->name, 'posts' => $posts]);
     }
 
     /**
@@ -26,6 +28,8 @@ class GroupController extends Controller
     public function create()
     {
         //
+		$user = Auth::user();
+		return view('member.article.create', ['user' => $user->name]);
     }
 
     /**
@@ -83,21 +87,4 @@ class GroupController extends Controller
     {
         //
     }
-
-    public function inviteCode()
-	{
-		$ret = "";
-		for ($i=0;$i<10;$i++){
-			$ret.=chr(mt_rand(65,127));
-		}
-		$ret = sha1($ret);
-		$code = Invite::create([
-			'code' => $ret,
-		]);
-		if($code){
-			return response($ret,200);
-		}else{
-			return response("error",500);
-		}
-	}
 }

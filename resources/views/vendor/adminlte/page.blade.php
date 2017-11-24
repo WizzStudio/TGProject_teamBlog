@@ -93,7 +93,13 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
+                    @admin( \Illuminate\Support\Facades\Auth::id() )
+                        @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
+                    @else
+                        <li><a href="{{ route('article.index') }}"><i class="fa fa-fw fa-file"></i><span>文章管理</span></a></li>
+                        <li><a href="{{ route('article.create') }}"><i class="fa fa-fw fa-pencil"></i><span>发布文章</span></a></li>
+                        <li><a href="{{ route('user.index') }}"><i class="fa fa-fw fa-user"></i><span>个人设置</span></a></li>
+                        @endadmin
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -132,6 +138,9 @@
 
 @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bootbox.min.js') }}"></script>
     @stack('js')
     @yield('js')
 @stop

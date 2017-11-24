@@ -15,6 +15,7 @@ class AddUserInfo extends Migration
     {
         //
 		Schema::table('users', function (Blueprint $table){
+			$table->integer('level')->default(0);
 			$table->string('url')->default('default.jpg');
 			$table->string('sign')->nullable();
 			$table->string('key_word')->nullable();
@@ -32,6 +33,7 @@ class AddUserInfo extends Migration
     {
         //
 		Schema::table('users', function (Blueprint $table){
+			$table->dropColumn('level');
 			$table->dropColumn('url');
 			$table->dropColumn('sign');
 			$table->dropColumn('key_word');
