@@ -42,6 +42,3 @@ Auth::routes();
 
 Route::get('/tgHome', 'HomeController@index')->name('home');				//后台入口
 
-Route::get('test', function (){
-	var_dump(\App\Group::all()->first());
-});

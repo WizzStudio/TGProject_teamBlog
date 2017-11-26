@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Http\UploadedFile;
+use Intervention\Image\Facades\Image;
 
 /*
  * 图片处理类
@@ -27,9 +28,10 @@ class ImgService
 		$fileExtension = $this->file->extension();
 		$fileMimeType = $this->file->getMimeType();
 		if (in_array($fileExtension, $extensionArray) and in_array($fileMimeType, $mimeTypeArray)) {
+			$image = Image::make($this->file->path())->resize(150,150);
 			$fileName = base64_encode(time());
 			$filePath = $fileName.".".$fileExtension;
-			$this->file->storeAs('public', $filePath);
+			$image->save(storage_path('app/public/').$filePath);
 			return $filePath;
 		} else {
 			return false;

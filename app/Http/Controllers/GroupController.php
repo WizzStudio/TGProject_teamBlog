@@ -84,7 +84,7 @@ class GroupController extends Controller
 				return response("file illegal", 400);
 			} else {
 				if(!empty($group->url)) {
-					$fileToUnlink = storage_path('app/public/'.explode('/',$user->url)[2]);
+					$fileToUnlink = storage_path('app/public/'.explode('/',$group->url)[2]);
 					unlink($fileToUnlink);
 				}
 				$group->url = Storage::url($filePath);
