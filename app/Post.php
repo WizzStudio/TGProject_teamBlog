@@ -8,7 +8,7 @@ class Post extends Model
 {
     //
 	protected  $fillable = [
-		'user_id', 'tag_id', 'md_content', 'html_content', 'title', 'view',
+		'user_id', 'tag_id', 'md_content', 'html_content', 'name', 'view',
 	];
 
 	public function comments()

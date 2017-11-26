@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\ImgService;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -14,6 +18,8 @@ class UserController extends Controller
     public function index()
     {
         //
+		$id = Auth::id();
+		return redirect()->route('user.edit', ['id' => $id]);
     }
 
     /**
@@ -57,6 +63,8 @@ class UserController extends Controller
     public function edit($id)
     {
         //
+		$user = User::findOrFail($id);
+		return view('member.user', ['user' => $user]);
     }
 
     /**
@@ -69,6 +77,30 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+		$user = User::findOrFail($id);
+		if($request->hasFile('uploadfile')) {
+			$imgService = new ImgService($request->file('uploadfile'));
+			$filePath = $imgService->handle();
+			if($filePath === false){
+				return response("file illegal", 400);
+			} else {
+				if(!empty($user->url)) {
+					$fileToUnlink = storage_path('app/public/'.explode('/',$user->url)[2]);
+					unlink($fileToUnlink);
+				}
+				$user->url = Storage::url($filePath);
+			}
+		}
+		$user->name = $request->name;
+		$user->github = $request->github;
+		$user->website = $request->website;
+		$user->sign = $request->sign;
+		$user->key_word = $request->key_word;
+		if($user->save()) {
+			return response("ok", 200);
+		} else {
+			return response("error", 500);
+		}
     }
 
     /**

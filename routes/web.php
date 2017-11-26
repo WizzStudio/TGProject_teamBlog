@@ -20,10 +20,10 @@ Route::prefix('tgBlogAdmin')->middleware(['auth', 'admin'])->group(function (){	
 	Route::get('invite', 'GroupController@inviteCode')->name('invite');							//生成邀请码
 });
 
-Route::prefix('tgMember')->middleware('auth')->group(function (){				//成员后台相关路由
-	Route::resource('user', 'UserController', ['only' => ['index', 'update']]);	//个人设置
-	Route::resource('article', 'ArticleController');							//文章管理
-	Route::get('search_tag',function (\Illuminate\Http\Request $request){		//现有标签,文章发布时可用
+Route::prefix('tgMember')->middleware('auth')->group(function (){						//成员后台相关路由
+	Route::resource('user', 'UserController', ['only' => ['index', 'update', 'edit']]);	//个人设置
+	Route::resource('article', 'ArticleController');									//文章管理
+	Route::get('search_tag',function (\Illuminate\Http\Request $request){				//现有标签,文章发布时可用
 		$data = $request->input('data');
 		$tag = \App\Tag::where('name','like',"%$data%")->get()->toJson();
 		return $tag;
