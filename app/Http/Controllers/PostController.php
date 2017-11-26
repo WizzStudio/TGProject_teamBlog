@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -14,6 +16,8 @@ class PostController extends Controller
     public function index()
     {
         //
+		$posts = Post::orderby('id','desc')->paginate(12);
+		return view('admin.post', ['posts' => $posts]);
     }
 
     /**
@@ -80,5 +84,14 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+		$post = Post::findOrFail($id);
+		if($post->delete()) {
+			if(Post::where('tag_id', '=', $post->tag_id)->count() == 0) {
+				Tag::destroy($post->tag_id);
+			}
+			return response("ok", 200);
+		} else {
+			return response("error", 500);
+		}
     }
 }

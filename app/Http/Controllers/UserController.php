@@ -97,7 +97,7 @@ class UserController extends Controller
 		$user->sign = $request->sign;
 		$user->key_word = $request->key_word;
 		if($user->save()) {
-			return response("ok", 200);
+			return redirect()->route('user.edit', ['id' => $id]);
 		} else {
 			return response("error", 500);
 		}

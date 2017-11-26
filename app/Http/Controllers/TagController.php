@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -14,6 +16,8 @@ class TagController extends Controller
     public function index()
     {
         //
+		$tags = Tag::orderby('id', 'desc')->paginate(12);
+		return view('admin.tag', ['tags' => $tags]);
     }
 
     /**
@@ -46,6 +50,8 @@ class TagController extends Controller
     public function show($id)
     {
         //
+		$posts = Post::where('tag_id', '=', $id)->orderby('id', 'desc')->paginate(12);
+		return view('admin.post', ['posts' => $posts]);
     }
 
     /**
@@ -80,5 +86,11 @@ class TagController extends Controller
     public function destroy($id)
     {
         //
+		$tag = Tag::findOrFail($id);
+		foreach ($tag->posts as $eachPost) {
+			$eachPost->delete();
+		}
+		$tag->delete();
+		return response("ok", 200);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Group;
 use App\User;
 use Illuminate\Console\Command;
 
@@ -48,6 +49,11 @@ class admin extends Command
 			'email' => $email,
 		]);
 		if($admin){
+			if(empty(Group::all()->first())){
+				Group::create([
+					'name' => env('Group_name', 'Group')
+				]);
+			}
 			$admin->level = 1;
 			$admin->save();
 			$this->info("创建成功");

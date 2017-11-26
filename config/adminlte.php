@@ -111,25 +111,41 @@ return [
 		'博客内容管理',
 		[
 			'text' => '文章管理',
-			'url'  => 'tgHome/post',
+			'url'  => 'tgBlogAdmin/post',
 			'icon'  => 'file',
 		],
 		[
 			'text' => '标签管理',
-			'url' => 'tgHome/tag',
+			'url' => 'tgBlogAdmin/tag',
 			'icon' => 'tag',
 		],
-		'设置',
+		'团队管理',
 		[
 			'text' => '人员管理',
-			'url'  => 'tgHome/member',
+			'url'  => 'tgBlogAdmin/member',
 			'icon' => 'user',
 		],
 		[
 			'text' => '团队设置',
-			'url'  => 'tgHome/group',
+			'url'  => 'tgBlogAdmin/group',
 			'icon' => 'group',
 		],
+		'个人管理',
+		[
+			'text' => '个人文章管理',
+			'url'  => 'tgMember/article',
+			'icon' => 'file',
+		],
+		[
+			'text' => '发布文章',
+			'url'  => 'tgMember/article/create',
+			'icon' => 'pencil',
+		],
+		[
+			'text' => '个人设置',
+			'url'  => 'tgMember/user',
+			'icon' => 'user',
+		]
     ],
 
     /*

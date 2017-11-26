@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use App\Tag;
+use App\User;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -14,6 +17,8 @@ class MemberController extends Controller
     public function index()
     {
         //
+		$users = User::where('level', '=', 0)->paginate(12);
+		return view('admin.user', ['users' => $users]);
     }
 
     /**
@@ -46,6 +51,8 @@ class MemberController extends Controller
     public function show($id)
     {
         //
+		$posts = Post::where('user_id', '=', $id)->orderby('id', 'desc')->paginate(12);
+		return view('admin.post', ['posts' => $posts]);
     }
 
     /**
@@ -80,5 +87,14 @@ class MemberController extends Controller
     public function destroy($id)
     {
         //
+		$user = User::findOrFail($id);
+		foreach ($user->posts as $eachPost) {
+			if(Post::where('tag_id', '=', $eachPost->tag_id)->count() == 1) {
+				Tag::destroy($eachPost->tag_id);
+			}
+			$eachPost->delete();
+		}
+		$user->delete();
+		return response("ok", 200);
     }
 }

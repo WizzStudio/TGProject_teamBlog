@@ -12,11 +12,11 @@
 */
 
 Route::prefix('tgBlogAdmin')->middleware(['auth', 'admin'])->group(function (){					//管理后台相关路由
-	Route::resource('group', 'GroupController', ['only' => ['index', 'store']]);				//团队设置
-	Route::resource('member', 'MemberController', ['only' => ['index', 'destroy', 'update']]);	//成员管理
-	Route::resource('link', 'LinkController', ['only' => ['index', 'destroy', 'update']]);		//友情链接管理
-	Route::resource('post', 'PostController', ['only' => ['index', 'destroy']]);				//文章管理
-	Route::resource('tag', 'TagController', ['only' => ['index', 'destroy']]);					//标签管理
+	Route::resource('group', 'GroupController', ['only' => ['index', 'update']]);				//团队设置
+	Route::resource('member', 'MemberController');	//成员管理
+	Route::resource('link', 'LinkController');													//友情链接管理
+	Route::resource('post', 'PostController', ['only' => ['index', 'destroy', 'show']]);		//文章管理
+	Route::resource('tag', 'TagController', ['only' => ['index', 'destroy', 'show']]);			//标签管理
 	Route::get('invite', 'GroupController@inviteCode')->name('invite');							//生成邀请码
 });
 
@@ -41,3 +41,7 @@ Route::prefix('/')->group(function (){										//游客路由
 Auth::routes();
 
 Route::get('/tgHome', 'HomeController@index')->name('home');				//后台入口
+
+Route::get('test', function (){
+	var_dump(\App\Group::all()->first());
+});

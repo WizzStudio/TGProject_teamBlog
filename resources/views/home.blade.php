@@ -51,8 +51,8 @@
                 <tbody>
                 @foreach($posts as $each_post)
                     <tr>
-                        <th><a href="#">{{ $each_post->title }}</a></th>
-                        <th><a href="{{ route('users.show',['id'=>$each_post->user->id]) }}">{{ $each_post->user->name }}</a></th>
+                        <th><a href="#">{{ $each_post->name }}</a></th>
+                        <th><a href="#">{{ $each_post->user->name }}</a></th>
                         <th><span class="badge">{{ $each_post->view }}</span></th>
                     </tr>
                 @endforeach

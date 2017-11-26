@@ -16,7 +16,7 @@ class AddUserInfo extends Migration
         //
 		Schema::table('users', function (Blueprint $table){
 			$table->integer('level')->default(0);
-			$table->string('url')->default('default.jpg');
+			$table->string('url')->nullable();
 			$table->string('sign')->nullable();
 			$table->string('key_word')->nullable();
 			$table->string('github')->nullable();
