@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Link;
 use Illuminate\Http\Request;
 
 class LinkController extends Controller
@@ -35,6 +36,17 @@ class LinkController extends Controller
     public function store(Request $request)
     {
         //
+		$link = Link::create([
+			'name' => $request->name,
+			'href' => $request->href
+		]);
+		if($link) {
+			$data = ['name' => $link->name, 'href' => $link->href];
+			return response(json_encode($data), 200);
+		} else {
+			return response("error", 500);
+		}
+
     }
 
     /**
@@ -80,5 +92,10 @@ class LinkController extends Controller
     public function destroy($id)
     {
         //
+		if(Link::destroy($id)) {
+			return response("ok", 200);
+		} else {
+			return response("error", 500);
+		}
     }
 }

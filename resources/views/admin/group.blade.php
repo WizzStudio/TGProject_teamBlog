@@ -42,6 +42,52 @@
                 </div>
             </form>
         </div>
+        <div class="col-sm-6 col-md-6 col-lg-6"></div>
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <label for="link">友情链接</label>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-plus" style="color: #00a157" data-toggle="modal" data-target="#link_form"></i>
+            <div class="modal fade" id="link_form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">添加友链</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="link_add_form" class="form-horizontal" role="form" action="{{ route('link.store') }}" method="post">
+                                {{ csrf_field() }}
+                                <div class="form-group ">
+                                    <input class="form-control" name="name" placeholder="友链名称">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="href" placeholder="链接">
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="form-control btn-primary"
+                                            onclick="link_add()">提交</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <table class="table table-striped" id="link" >
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($links as $eachLink)
+                    <tr id="{{ "link".$eachLink->id }}">
+                        <th><a href="{{ $eachLink->href }}" target="_blank">{{ $eachLink->name }}</a></th>
+                        <th><i class="fa fa-fw fa-remove" id="{{ $eachLink->id }} "
+                                    style="color: #990000" onclick="link_remove(this.id)"></i></th>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection
 
@@ -65,5 +111,41 @@
             validateInitialCount:true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
         });
+    </script>
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        function link_add() {
+            $.ajax({
+                url: "{{ route('link.store') }}",
+                type: "POST",
+                data: $("#link_add_form").serialize(),
+                success: function (data) {
+                    bootbox.alert("添加成功", function () {
+                        window.location.reload();
+                    })
+                },
+                error: function (e) {
+                    bootbox.alert("添加失败");
+                    console.log(e);
+                }
+            })
+        }
+        function link_remove(id) {
+            $.ajax({
+                url:'{{ route('link.index') }}'+"/"+id,
+                type:"DELETE",
+                success:function (data) {
+                    $('#link'+id).remove();
+                },
+                error:function (e) {
+                    bootbox.alert("删除失败");
+                    console.log(e);
+                }
+            })
+        }
     </script>
 @endsection

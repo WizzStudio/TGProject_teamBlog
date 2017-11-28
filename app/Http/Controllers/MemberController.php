@@ -76,6 +76,13 @@ class MemberController extends Controller
     public function update(Request $request, $id)
     {
         //
+		$user = User::findOrFail($id);
+		$user->level = 1;
+		if($user->save()) {
+			return response("ok", 200);
+		} else {
+			return response("error", 400);
+		}
     }
 
     /**

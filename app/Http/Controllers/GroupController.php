@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\ImgService;
 use App\Invite;
+use App\Link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +21,8 @@ class GroupController extends Controller
     {
         //
 		$group = Group::all()->first();
-		return view('admin.group', ['group' => $group]);
+		$links = Link::all();
+		return view('admin.group', ['group' => $group, 'links' => $links]);
     }
 
     /**
@@ -114,17 +116,17 @@ class GroupController extends Controller
     public function inviteCode()
 	{
 		$ret = "";
-		for ($i=0;$i<10;$i++){
-			$ret.=chr(mt_rand(65,127));
+		for ($i=0; $i<10; $i++){
+			$ret.=chr(mt_rand(65, 127));
 		}
 		$ret = sha1($ret);
 		$code = Invite::create([
 			'code' => $ret,
 		]);
 		if($code){
-			return response($ret,200);
+			return response($ret, 200);
 		}else{
-			return response("error",500);
+			return response("error", 500);
 		}
 	}
 }
