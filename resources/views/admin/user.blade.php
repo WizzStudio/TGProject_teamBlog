@@ -9,7 +9,7 @@
 @section('content')
     <div class="container">
         <label for="posts"><h3>人员管理</h3></label>
-        <button style="margin-left: 50px" class="btn-primary">生成邀请码</button>
+        <button style="margin-left: 50px" class="btn-primary" onclick="invite_code()">生成邀请码</button>
         <div id="posts" class="row">
             <table class="table table-striped">
                 <thead>
@@ -87,10 +87,24 @@
                     })
                 },
                 error:function (e) {
-                    bootbox.alert("删除失败");
+                    bootbox.alert("操作失败");
                     console.log(e);
                 }
             })
+        }
+        function invite_code() {
+            $.ajax({
+                url:"{{ route('invite') }}",
+                type:"GET",
+                success:function (data) {
+                    bootbox.alert("创建成功,邀请码为:  "+data);
+                },
+                error:function (e) {
+                    bootbox.alert("操作失败");
+                    console.log(e);
+                }
+            })
+                    
         }
     </script>
 @endsection
