@@ -56,6 +56,7 @@ class TagController extends Controller
 		$posts = Post::where('tag_id', '=', $tag->id)->paginate(10)->toArray();		//标签下文章分页
 		foreach ($posts['data'] as &$eachPost) {									//&修改为引用数组
 			$user = User::find($eachPost['user_id'])->toArray();					//获取文章对应作者信息
+			$eachPost['md_content'] = mb_substr($eachPost['md_content'], 0, 200 ,'utf-8');
 			$eachPost['user'] = $user;
 		}
 		unset($eachPost);			//释放引用

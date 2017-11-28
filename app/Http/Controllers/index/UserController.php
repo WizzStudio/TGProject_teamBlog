@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\index;
 
 use App\Post;
+use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -53,6 +54,11 @@ class UserController extends Controller
         //
 		$user = User::findOrFail($id)->toArray();
 		$posts = Post::where('user_id', '=', $user['id'])->paginate(10)->toArray();
+		foreach ($posts['data'] as &$eachPost) {
+			$tag = Tag::find($eachPost['tag_id'])->toArray();
+			$eachPost['md_content'] = mb_substr($eachPost['md_content'], 0, 200 ,'utf-8');
+			$eachPost['tag'] = $tag;
+		}
 		$data = array();
 		$data['userInfo'] = $user;
 		$data['articles'] = $posts;
