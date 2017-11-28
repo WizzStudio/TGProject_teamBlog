@@ -35,6 +35,10 @@ Route::prefix('/')->group(function (){										//游客路由
 		$links = \App\Link::all()->toJson();
 		return response($links, 200);
 	});									//友情链接
+	Route::get('team', function (){
+		$team = \App\Group::first()->toJson();
+		return response($team, 200);
+	});
 	Route::resource('articles', 'index\ArticleController', ['only' => ['index', 'show']]);		//文章
 	Route::resource('users', 'index\UserController', ['only' => ['index', 'show']]);			//成员
 	Route::resource('tags', 'index\TagController', ['only' => ['index', 'show']]);				//标签

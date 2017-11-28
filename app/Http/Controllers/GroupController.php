@@ -89,7 +89,7 @@ class GroupController extends Controller
 					$fileToUnlink = storage_path('app/public/'.explode('/',$group->url)[2]);
 					unlink($fileToUnlink);
 				}
-				$group->url = Storage::url($filePath);
+				$group->url = asset(Storage::url($filePath));
 			}
 		}
 		$group->desc = $request->desc;
