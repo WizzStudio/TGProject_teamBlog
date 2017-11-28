@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\index;
 
+use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,6 +17,8 @@ class UserController extends Controller
     public function index()
     {
         //
+		$users = User::all()->toJson();
+		return response($users, 200);
     }
 
     /**
@@ -47,6 +51,12 @@ class UserController extends Controller
     public function show($id)
     {
         //
+		$user = User::findOrFail($id)->toArray();
+		$posts = Post::where('user_id', '=', $user['id'])->paginate(10)->toArray();
+		$data = array();
+		$data['userInfo'] = $user;
+		$data['articles'] = $posts;
+		return response(json_encode($data), 200);
     }
 
     /**

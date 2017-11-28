@@ -88,7 +88,7 @@ class UserController extends Controller
 					$fileToUnlink = storage_path('app/public/'.explode('/',$user->url)[2]);
 					unlink($fileToUnlink);
 				}
-				$user->url = Storage::url($filePath);
+				$user->url = asset(Storage::url($filePath));
 			}
 		}
 		$user->name = $request->name;

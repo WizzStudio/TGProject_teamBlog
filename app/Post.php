@@ -11,6 +11,10 @@ class Post extends Model
 		'user_id', 'tag_id', 'md_content', 'html_content', 'name', 'view',
 	];
 
+	protected $hidden = [
+		'html_content'
+	];
+
 	public function comments()
 	{
 		return $this->hasMany('App\Comment');
