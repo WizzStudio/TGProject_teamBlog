@@ -31,11 +31,11 @@ Route::prefix('tgMember')->middleware('auth')->group(function (){						//成员�
 });
 
 Route::prefix('/')->group(function (){										//游客路由
-	Route::get('link', function (){
+	Route::get('link', function (){											//友情链接
 		$links = \App\Link::all()->toJson();
 		return response($links, 200);
-	});									//友情链接
-	Route::get('team', function (){
+	});
+	Route::get('team', function (){											//团队信息
 		$team = \App\Group::first()->toJson();
 		return response($team, 200);
 	});

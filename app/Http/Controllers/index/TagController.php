@@ -60,7 +60,8 @@ class TagController extends Controller
 			$eachPost['user'] = $user;
 		}
 		unset($eachPost);			//释放引用
-		return response(json_encode($posts), 200);
+		$data = ['tagInfo' => $tag->toArray(), 'articles' => $posts];
+		return response(json_encode($data), 200);
 
     }
 
