@@ -50,3 +50,7 @@ Auth::routes();
 
 Route::get('/tgHome', 'HomeController@index')->name('home');				//后台入口
 
+Route::get('/', function (){
+	return redirect()->route('home');
+});
+

@@ -60,11 +60,14 @@ class ArticleController extends Controller
     public function show($id)
     {
         //
-		$article = Post::findOrFail($id)->toArray();
+		$article = Post::findOrFail($id);
+		$article->view = $article->view + 1;
+		$article->save();
+		$articleArray = $article->toArray();
 		$user = User::find($article['user_id'])->toArray();					//获取文章对应作者信息
 		$tag = Tag::find($article['tag_id'])->toArray();					//标签信息
-		$article['user'] = $user;
-		$article['tag'] = $tag;
+		$articleArray['user'] = $user;
+		$articleArray['tag'] = $tag;
 		return response(json_encode($article), 200);
     }
 
