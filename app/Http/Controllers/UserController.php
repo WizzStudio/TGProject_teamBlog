@@ -85,7 +85,7 @@ class UserController extends Controller
 				return response("file illegal", 400);
 			} else {
 				if(!empty($user->url)) {
-					$fileToUnlink = storage_path('app/public/'.explode('storage/',$user->url)[2]);
+					$fileToUnlink = storage_path('app/public/'.explode('storage/',$user->url)[1]);
 					unlink($fileToUnlink);
 				}
 				$user->url = asset(Storage::url($filePath));
