@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         //
 		$users = User::all()->toJson();
-		return response($users, 200);
+		return response($users, 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -62,7 +62,7 @@ class UserController extends Controller
 		$data = array();
 		$data['userInfo'] = $user;
 		$data['articles'] = $posts;
-		return response(json_encode($data), 200);
+		return response(json_encode($data), 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**

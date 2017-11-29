@@ -27,7 +27,7 @@ class ArticleController extends Controller
 			$eachPost['tag'] = $tag;
 		}
 		unset($eachPost);
-		return response(json_encode($articles), 200);
+		return response(json_encode($articles), 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -68,7 +68,7 @@ class ArticleController extends Controller
 		$tag = Tag::find($article['tag_id'])->toArray();					//标签信息
 		$articleArray['user'] = $user;
 		$articleArray['tag'] = $tag;
-		return response(json_encode($article), 200);
+		return response(json_encode($article), 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**

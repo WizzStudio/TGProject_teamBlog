@@ -19,7 +19,7 @@ class TagController extends Controller
     {
         //
 		$tags = Tag::all()->toJson();
-		return response($tags, 200);
+		return response($tags, 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -61,7 +61,7 @@ class TagController extends Controller
 		}
 		unset($eachPost);			//释放引用
 		$data = ['tagInfo' => $tag->toArray(), 'articles' => $posts];
-		return response(json_encode($data), 200);
+		return response(json_encode($data), 200)->header('Access-Control-Allow-Origin', '*');
 
     }
 

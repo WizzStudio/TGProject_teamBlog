@@ -33,11 +33,11 @@ Route::prefix('tgMember')->middleware('auth')->group(function (){						//成员�
 Route::prefix('/')->group(function (){										//游客路由
 	Route::get('link', function (){											//友情链接
 		$links = \App\Link::all()->toJson();
-		return response($links, 200);
+		return response($links, 200)->header('Access-Control-Allow-Origin', '*');
 	});
 	Route::get('team', function (){											//团队信息
 		$team = \App\Group::first()->toJson();
-		return response($team, 200);
+		return response($team, 200)->header('Access-Control-Allow-Origin', '*');
 	});
 	Route::resource('articles', 'index\ArticleController', ['only' => ['index', 'show']]);		//文章
 	Route::resource('users', 'index\UserController', ['only' => ['index', 'show']]);			//成员
