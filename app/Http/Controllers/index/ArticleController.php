@@ -18,7 +18,7 @@ class ArticleController extends Controller
     public function index()
     {
         //
-		$articles = Post::paginate(10)->toArray();
+		$articles = Post::orderby('id', 'desc')->paginate(10)->toArray();
 		foreach ($articles['data'] as &$eachPost) {									//&修改为引用数组
 			$user = User::find($eachPost['user_id'])->toArray();					//获取文章对应作者信息
 			$tag = Tag::find($eachPost['tag_id'])->toArray();
