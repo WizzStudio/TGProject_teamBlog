@@ -38,7 +38,7 @@
                         </span>
                     @endif
                 </div>
-                <div class="form-group has-feedback">
+                {{--<div class="form-group has-feedback">
                     <input type="text" name="code" class="form-control" value="{{ old('code') }}"
                             placeholder="Invite Code">
                     <span class="glyphicon glyphicon-plus form-control-feedback"></span>
@@ -47,7 +47,7 @@
                             <strong>{{ $errors->first('code') }}</strong>
                         </span>
                     @endif
-                </div>
+                </div>--}}
                 <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
                     <input type="password" name="password" class="form-control"
                            placeholder="{{ trans('adminlte::adminlte.password') }}">
