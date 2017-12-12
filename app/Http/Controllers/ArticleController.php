@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\BC;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         //
+		$user = Auth::user();
 		if ($this->valid($request)) {
 			$tag_id = $this->getTag ($request->tag);
 			$post = Post::create ([
@@ -51,11 +53,15 @@ class ArticleController extends Controller
 				'tag_id' => $tag_id,
 				'md_content' => $request->input('content'),
 				'html_content' => $request->input('editormd-html-code'),
-				'user_id' => Auth::id(),
+				'user_id' => $user->id,
 			]);
 			if (!$post) {
 				return response("create fail",400);
 			} else {
+				$title = $post->name;
+				$content = ['title' => $title, 'user' => $user->name];
+				$bc = new BC();
+				$bc->notify($content);
 				return redirect()->route('article.index');
 			}
 		}
