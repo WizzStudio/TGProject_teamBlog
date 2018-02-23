@@ -72,10 +72,10 @@ class ArticleController extends Controller
 					'link' => [
 						'text' => mb_substr($post->md_content, 0, 50, 'utf-8'),
 						'title' => $post->name,
-						'messageUrl' => 'http://tgblog.helloyzy.cn/'
+						'messageUrl' => 'http://blog.helloyzy.cn/'
 					]
 				];
-				$ding->send($data);
+				$ding->send(json_encode($data));
 				return redirect()->route('article.index');
 			}
 		}

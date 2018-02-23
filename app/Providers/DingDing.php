@@ -25,6 +25,7 @@ class DingDing
 		curl_setopt($this->curl, CURLOPT_URL, $this->hook);	//设置url
 		curl_setopt($this->curl, CURLOPT_POST, true);	//post
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($this->curl, CURLOPT_HTTPHEADER, array ('Content-Type: application/json;charset=utf-8'));
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
 		curl_setopt($this->curl, CURLOPT_TIMEOUT, 5);	//timeout,默认为5
 		curl_exec($this->curl);
