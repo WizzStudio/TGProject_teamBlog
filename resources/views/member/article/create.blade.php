@@ -26,6 +26,23 @@
                     </div>
                 </div>
                 <div class="col-md-8 col-lg-8">
+                    <label for="type">文章分类</label>
+                    <div class="row">
+                        <div class="col-sm-8 col-md-8">
+                            <label for="l1">一级分类</label>
+                            <select id="l1" name="l1">
+                                @foreach($type as $eachType)
+                                    <option id="{{ $eachType->l2_name }}" value="{{ $eachType->l2_name }}"
+                                            onclick="get_l2(this.id)">{{ $eachType->l2_name }}</option>
+                                @endforeach
+                            </select>
+                            <label for="l2">二级分类</label>
+                            <select id="l2" name="l2">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-8">
                     <label for="tag">文章标签</label>
                     <div class="row">
                         <div class="col-md-8 col-lg-8">
@@ -70,13 +87,32 @@
             $.ajax({
                 url:"{{ route('search_tag') }}",
                 type:"GET",
-                data:"data="+value ,
+                data:"data="+value,
                 dataType:"json",
                 success:function (data) {
                     for (var i=0 ;i<data.length;i++){
                         var tmp = $("<option></option>");
                         tmp.attr('value',data[i].name);
-                        $("#tag_list").html(tmp);
+                        $("#l2").html(tmp);
+                    }
+                }
+            })
+        }
+        function get_l2(value)
+        {
+            $.ajax({
+                url:"{{ route('get_l2') }}",
+                type:"GET",
+                data:"data="+value,
+                dataType:"json",
+                success:function (data) {
+                    var select = document.getElementById('l2');
+                    select.innerHTML = '';
+                    for (var i=0 ;i<data.length;i++){
+                        var option = document.createElement('OPTION');
+                        option.text = data[i].l2_name;
+                        option.value = data[i].l2_name;
+                        select.options.add(option);
                     }
                 }
             })
@@ -100,6 +136,20 @@
                     validators:{
                         notEmpty:{
                             message:"文章标签不能为空"
+                        }
+                    }
+                },
+                l1:{
+                    validators:{
+                        notEmpty:{
+                            message:"分类不能为空"
+                        }
+                    }
+                },
+                l2:{
+                    validators:{
+                        notEmpty:{
+                            message:"分类不能为空"
                         }
                     }
                 }

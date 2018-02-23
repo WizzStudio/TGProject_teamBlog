@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\BC;
 use App\Post;
 use App\Tag;
+use App\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +34,8 @@ class ArticleController extends Controller
     {
         //
 		$user = Auth::user();
-		return view('member.article.create', ['user' => $user->name]);
+		$type = Type::where('l1_name', null)->get();
+		return view('member.article.create', ['user' => $user->name, 'type' => $type]);
     }
 
     /**
@@ -48,12 +50,14 @@ class ArticleController extends Controller
 		$user = Auth::user();
 		if ($this->valid($request)) {
 			$tag_id = $this->getTag ($request->tag);
+			$type = Type::where('l1_name', $request->l1)->where('l2_name', $request->l2)->first();
 			$post = Post::create ([
 				'name' => $request->input('name'),
 				'tag_id' => $tag_id,
 				'md_content' => $request->input('content'),
 				'html_content' => $request->input('editormd-html-code'),
 				'user_id' => $user->id,
+				'type_id' => $type->id,
 			]);
 			if (!$post) {
 				return response("create fail",400);

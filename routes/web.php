@@ -17,6 +17,7 @@ Route::prefix('tgBlogAdmin')->middleware(['auth', 'admin'])->group(function (){	
 	Route::resource('link', 'LinkController');													//友情链接管理
 	Route::resource('post', 'PostController', ['only' => ['index', 'destroy', 'show']]);		//文章管理
 	Route::resource('tag', 'TagController', ['only' => ['index', 'destroy', 'show']]);			//标签管理
+	Route::resource('type', 'TypeController');		//分类管理
 	Route::get('invite', 'GroupController@inviteCode')->name('invite');							//生成邀请码
 });
 
@@ -28,6 +29,10 @@ Route::prefix('tgMember')->middleware('auth')->group(function (){						//成员�
 		$tag = \App\Tag::where('name','like',"%$data%")->get()->toJson();
 		return $tag;
 	})->name('search_tag');
+	Route::get('get_l2', function (\Illuminate\Http\Request $request) {
+		$data = \App\Type::where('l1_name', $request->input('data'))->get()->toJson();
+		return $data;
+	})->name('get_l2');
 });
 
 Route::prefix('/')->group(function (){										//游客路由

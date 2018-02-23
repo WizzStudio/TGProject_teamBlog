@@ -119,6 +119,11 @@ return [
 			'url' => 'tgBlogAdmin/tag',
 			'icon' => 'tag',
 		],
+		[
+			'text' => '分类管理',
+			'url' => 'tgBlogAdmin/type',
+			'icon' => 'calendar',
+		],
 		'团队管理',
 		[
 			'text' => '人员管理',

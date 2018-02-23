@@ -8,7 +8,7 @@ class Post extends Model
 {
     //
 	protected  $fillable = [
-		'user_id', 'tag_id', 'md_content', 'html_content', 'name', 'view',
+		'user_id', 'tag_id', 'md_content', 'html_content', 'name', 'view', 'type_id',
 	];
 
 	protected $hidden = [
@@ -28,5 +28,10 @@ class Post extends Model
 	public function tag()
 	{
 		return $this->belongsTo('App\Tag');
+	}
+
+	public function type()
+	{
+		return $this->belongsTo('App\Type');
 	}
 }
