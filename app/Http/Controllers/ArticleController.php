@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\BC;
 use App\Post;
+use App\Providers\DingDing;
 use App\Tag;
 use App\Type;
 use Illuminate\Http\Request;
@@ -51,6 +52,9 @@ class ArticleController extends Controller
 		if ($this->valid($request)) {
 			$tag_id = $this->getTag ($request->tag);
 			$type = Type::where('l1_name', $request->l1)->where('l2_name', $request->l2)->first();
+			if(empty($type)) {
+				return response("请选择正确的分类", 400);
+			}
 			$post = Post::create ([
 				'name' => $request->input('name'),
 				'tag_id' => $tag_id,
@@ -60,12 +64,18 @@ class ArticleController extends Controller
 				'type_id' => $type->id,
 			]);
 			if (!$post) {
-				return response("create fail",400);
+				return response("create fail",500);
 			} else {
-				$title = $post->name;
-				$content = ['title' => $title, 'user' => $user->name];
-				$bc = new BC();
-				$bc->notify($content);
+				$ding = new DingDing($type->ding_hook);
+				$data = [
+					'msgtype' => 'link',
+					'link' => [
+						'text' => mb_substr($post->md_content, 0, 50, 'utf-8'),
+						'title' => $post->name,
+						'messageUrl' => 'http://tgblog.helloyzy.cn/'
+					]
+				];
+				$ding->send($data);
 				return redirect()->route('article.index');
 			}
 		}

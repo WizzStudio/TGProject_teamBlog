@@ -62,6 +62,9 @@ class TypeController extends Controller
 			}
 		}
 		$parent = Type::where('l1_name', null)->where('l2_name', $l1_name)->limit(1)->get()->toArray();
+		if (empty($parent)) {
+			return response("无此一级分类", 400);
+		}
 		$pid = $parent[0]['id'] ?? null;
 		$l1_name = $parent[0]['l2_name'] ?? $l1_name;
 		$type = Type::create([

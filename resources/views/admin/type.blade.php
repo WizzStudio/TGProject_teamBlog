@@ -116,7 +116,7 @@
                     })
                 },
                 error: function (e) {
-                    bootbox.alert("添加失败");
+                    bootbox.alert("添加失败 "+e.responseText);
                     console.log(e);
                 }
             })
