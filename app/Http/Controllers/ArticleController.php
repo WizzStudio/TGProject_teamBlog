@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\BC;
 use App\Post;
 use App\Providers\DingDing;
 use App\Tag;
@@ -66,16 +65,18 @@ class ArticleController extends Controller
 			if (!$post) {
 				return response("create fail",500);
 			} else {
-				$ding = new DingDing($type->ding_hook);
-				$data = [
-					'msgtype' => 'link',
-					'link' => [
-						'text' => mb_substr($post->md_content, 0, 50, 'utf-8'),
-						'title' => $post->name,
-						'messageUrl' => 'http://blog.helloyzy.cn/'
-					]
-				];
-				$ding->send(json_encode($data));
+				if (!empty($type->ding_hook)) {
+					$ding = new DingDing($type->ding_hook);
+					$data = [
+						'msgtype' => 'link',
+						'link' => [
+							'text' => mb_substr($post->md_content, 0, 50, 'utf-8'),
+							'title' => $post->name,
+							'messageUrl' => 'http://blog.helloyzy.cn/'
+						]
+					];
+					$ding->send(json_encode($data));
+				}
 				return redirect()->route('article.index');
 			}
 		}
