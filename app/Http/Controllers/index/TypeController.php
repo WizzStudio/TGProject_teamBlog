@@ -21,7 +21,7 @@ class TypeController extends Controller
 			$num = Post::where('type_id', $eachType->id)->count();
 			$eachType['article_num'] = $num;
 		}
-		return response($type, 200);
+		return response($type, 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -34,6 +34,6 @@ class TypeController extends Controller
     {
         //
 		$articles = Post::where('type_id', $id)->orderby('id', 'desc')->paginate(10);
-		return response($articles, 200);
+		return response($articles, 200)->header('Access-Control-Allow-Origin', '*');
     }
 }
