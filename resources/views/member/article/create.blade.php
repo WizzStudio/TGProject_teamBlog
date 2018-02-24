@@ -30,10 +30,10 @@
                     <div class="row">
                         <div class="col-sm-8 col-md-8">
                             <label for="l1">一级分类</label>
-                            <select id="l1" name="l1">
+                            <select id="l1" name="l1" onclick="get_l2(this.value)">
                                 @foreach($type as $eachType)
                                     <option id="{{ $eachType->l2_name }}" value="{{ $eachType->l2_name }}"
-                                            onclick="get_l2(this.id)">{{ $eachType->l2_name }}</option>
+                                            {{--onclick="get_l2(this.id)"--}}>{{ $eachType->l2_name }}</option>
                                 @endforeach
                             </select>
                             <label for="l2">二级分类</label>
@@ -125,7 +125,7 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields:{
-                title:{
+                name:{
                     validators:{
                         notEmpty:{
                             message:"文章题目不能为空"
